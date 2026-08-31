@@ -1,0 +1,496 @@
+html = r'''<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Fireflies — an end-to-end AI digital product operating system for beginners to mastery. Discover, validate, build, create, launch, monetize and scale.">
+<meta name="theme-color" content="#080b12">
+<title>Fireflies — Idea → Product → Launch → Scale</title>
+<style>
+:root{
+  --bg:#080b12;--bg2:#0b1019;--panel:#101722;--panel2:#141c2a;
+  --line:#273246;--line2:#344158;--text:#f7f8fb;--muted:#98a4b8;
+  --brand:#ff7a18;--brand2:#ffb347;--success:#36d47f;--warning:#ffd18a;
+  --danger:#ff6976;--radius:16px;--shadow:0 24px 70px rgba(0,0,0,.28)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at 80% -10%,#1c1a15 0,#0a0e16 34%,var(--bg) 72%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+a{text-decoration:none;color:inherit}
+.hidden{display:none!important}
+.app{min-height:100vh}
+.topbar{height:66px;position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid var(--line);background:rgba(8,11,18,.9);backdrop-filter:blur(18px)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:-.04em}
+.logo-mark{width:35px;height:35px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(135deg,var(--brand),#ffd27d);color:#111;box-shadow:0 10px 30px rgba(255,122,24,.25)}
+.top-actions{display:flex;align-items:center;gap:9px}
+.pill{padding:8px 11px;border:1px solid var(--line);border-radius:999px;background:#111827;color:#d8e0ec;font-size:12px}
+.avatar{width:35px;height:35px;border-radius:50%;display:grid;place-items:center;background:#202a3b;font-size:11px;font-weight:800}
+.btn{border:1px solid var(--line);background:#141c2a;color:#fff;border-radius:10px;padding:10px 14px;font-weight:750;transition:.18s}
+.btn:hover{transform:translateY(-1px);border-color:#46536a}
+.btn.primary{background:linear-gradient(135deg,var(--brand),#ff9d42);border-color:transparent;color:#111}
+.btn.ghost{background:transparent}
+.btn.small{font-size:12px;padding:7px 10px}
+.mobile-menu{display:none}
+
+.layout{display:grid;grid-template-columns:255px minmax(0,1fr);min-height:calc(100vh - 66px)}
+.sidebar{position:sticky;top:66px;height:calc(100vh - 66px);overflow:auto;border-right:1px solid var(--line);padding:16px 13px;background:rgba(7,10,16,.72)}
+.nav-label{margin:15px 9px 7px;color:#657187;text-transform:uppercase;letter-spacing:.14em;font-size:10px;font-weight:800}
+.nav button{width:100%;display:flex;align-items:center;gap:10px;border:0;background:transparent;color:#aeb9ca;text-align:left;padding:10px 11px;border-radius:10px;margin:2px 0}
+.nav button:hover,.nav button.active{background:#161e2d;color:#fff}
+.nav-icon{width:21px;text-align:center}
+.upgrade{margin:17px 4px;padding:16px;border:1px solid #49321e;border-radius:16px;background:linear-gradient(145deg,#1a1510,#111721)}
+.upgrade strong{display:block}.upgrade p{color:var(--muted);font-size:11px;line-height:1.55}
+
+.main{width:100%;max-width:1500px;margin:auto;padding:28px}
+.view{display:none}.view.active{display:block}
+.hero{display:flex;justify-content:space-between;align-items:flex-end;gap:22px;margin-bottom:23px}
+.eyebrow{color:var(--brand2);font-size:11px;font-weight:850;letter-spacing:.14em;text-transform:uppercase}
+.hero h1{font-size:clamp(32px,4vw,50px);line-height:1;letter-spacing:-.055em;margin:7px 0 10px}
+.hero p{max-width:760px;margin:0;color:var(--muted);line-height:1.65;font-size:14px}
+.grid{display:grid;gap:15px}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.card{border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(145deg,rgba(20,28,42,.98),rgba(13,18,29,.98));padding:18px;box-shadow:var(--shadow)}
+.stat .value{font-size:28px;font-weight:900;letter-spacing:-.04em}.stat .label{color:var(--muted);font-size:12px;margin-top:5px}.delta{margin-top:10px;color:var(--success);font-size:11px}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin:27px 0 11px}.section-head h2{font-size:17px;margin:0}.section-head span{font-size:11px;color:#758197}
+.module{min-height:155px;transition:.18s}.module:hover{transform:translateY(-2px);border-color:#3d4a61}
+.module .module-icon{font-size:25px;margin-bottom:11px}.module h3{margin:0 0 6px;font-size:15px}.module p{margin:0;color:var(--muted);font-size:12px;line-height:1.55}.open{margin-top:14px;color:var(--brand2);font-size:12px;font-weight:800}
+.progress{height:8px;background:#202838;border-radius:999px;overflow:hidden}.progress i{height:100%;display:block;border-radius:999px;background:linear-gradient(90deg,var(--brand),var(--brand2))}
+.table{width:100%;border-collapse:collapse}.table th,.table td{padding:12px 9px;border-bottom:1px solid var(--line);text-align:left;font-size:12px}.table th{color:#748096;text-transform:uppercase;font-size:10px;letter-spacing:.09em}.table small{color:#7e8ba0}
+.status{display:inline-block;border-radius:999px;padding:5px 8px;font-size:10px;background:#1a2332}.status.ok{background:#10271c;color:#7ff0ae}.status.wait{background:#2a2114;color:var(--warning)}
+.field{margin-top:13px}.field label{display:block;color:#8490a5;font-size:10px;letter-spacing:.08em;margin-bottom:6px}.field input,.field textarea,.field select{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);outline:0;background:#0b1019;color:#fff}.field textarea{min-height:112px;resize:vertical}.field input:focus,.field textarea:focus,.field select:focus{border-color:#5b6a83}
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}.chip{border:1px solid var(--line);border-radius:999px;background:#101724;color:#bac4d3;padding:8px 10px;font-size:11px}.chip.selected{border-color:var(--brand);background:#291a10;color:#fff}
+.banner{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px;border:1px solid #4b3520;border-radius:16px;background:linear-gradient(100deg,#18130e,#121925)}
+.banner p{color:var(--muted);font-size:11px;margin:5px 0 0}
+.score{display:flex;align-items:center;gap:20px}.score-circle{width:116px;height:116px;display:grid;place-items:center;position:relative;border-radius:50%;background:conic-gradient(var(--brand) 0 87%,#202838 87%);flex:none}.score-circle:after{content:"";position:absolute;inset:10px;border-radius:50%;background:#101621}.score-circle b{position:relative;z-index:1;font-size:29px}.metrics{display:grid;gap:8px;margin-top:20px}.metric-row{display:flex;justify-content:space-between;font-size:11px;color:#c6cfdd}
+.tool-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.tool{padding:14px;border:1px dashed #354157;border-radius:12px;text-align:center;color:#c5cedb;font-size:11px}.tool b{display:block;margin-top:6px;font-size:12px}
+.list{display:grid;gap:9px}.list-item{padding:11px 0;border-bottom:1px solid var(--line);font-size:12px}.list-item:last-child{border-bottom:0}
+.code{padding:14px;border-radius:11px;border:1px solid var(--line);background:#080d15;color:#cbd5e2;font:12px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;overflow:auto}
+.modal{display:none;position:fixed;inset:0;z-index:80;place-items:center;padding:20px;background:rgba(0,0,0,.72);backdrop-filter:blur(8px)}.modal.show{display:grid}
+.modal-box{width:min(640px,100%);padding:22px;border-radius:18px;border:1px solid #38455c;background:#111824;box-shadow:0 30px 100px #000}
+.modal-head{display:flex;justify-content:space-between;align-items:center}.modal-head h2{margin:0}.close{border:0;background:transparent;color:#aeb8c8;font-size:24px}
+.toast{position:fixed;right:20px;bottom:20px;z-index:100;display:none;padding:12px 15px;border:1px solid #3b465a;border-radius:11px;background:#172132;color:#fff;font-size:12px}.toast.show{display:block}
+
+.landing{min-height:100vh}.landing-nav{padding:19px 5%;display:flex;align-items:center;justify-content:space-between}.landing-hero{max-width:1100px;text-align:center;margin:72px auto 0;padding:0 24px}.badge{display:inline-block;padding:8px 12px;border:1px solid #453321;border-radius:999px;background:#17130f;color:#ffc98a;font-size:11px;font-weight:800}.landing-hero h1{font-size:clamp(48px,8vw,92px);line-height:.92;letter-spacing:-.07em;margin:22px 0}.gradient{background:linear-gradient(90deg,#fff,#ffb347 46%,#ff7a18);color:transparent;background-clip:text;-webkit-background-clip:text}.landing-hero p{max-width:800px;margin:0 auto 28px;color:var(--muted);font-size:16px;line-height:1.7}.landing-grid{max-width:1120px;margin:65px auto;padding:0 24px}.mini{border:1px solid var(--line);border-radius:16px;padding:20px;background:#0f1420}.mini h3{font-size:15px;margin:9px 0 6px}.mini p{margin:0;color:var(--muted);font-size:12px;line-height:1.55}.footer{text-align:center;padding:50px 5%;color:#667287;font-size:11px}
+
+.auth{min-height:100vh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 50% 20%,#1d1a13,#080b12 55%)}.auth-box{width:min(480px,100%);padding:30px;border:1px solid var(--line);border-radius:20px;background:#101621}.auth-box h1{margin:18px 0 8px}.auth-box p{color:var(--muted);font-size:13px;line-height:1.55}
+
+@media(max-width:1050px){.g4{grid-template-columns:repeat(2,1fr)}.tool-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:800px){
+  .mobile-menu{display:block;border:1px solid var(--line);background:#121a28;color:#fff;border-radius:9px;padding:7px 10px}
+  .layout{grid-template-columns:1fr}.sidebar{display:none;position:fixed;top:66px;left:0;width:255px;height:calc(100vh - 66px);z-index:45;box-shadow:30px 0 80px rgba(0,0,0,.35)}
+  .main{padding:18px}.hero{flex-direction:column;align-items:flex-start}.g3,.g2{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.topbar{padding:0 14px}.top-actions .pill{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- PUBLIC LANDING -->
+<div id="landing" class="landing">
+  <nav class="landing-nav">
+    <div class="logo"><span class="logo-mark">✦</span> FIREFLIES</div>
+    <div class="top-actions">
+      <button class="btn ghost" onclick="showAuth()">Sign in</button>
+      <button class="btn primary" onclick="showAuth()">Start Building</button>
+    </div>
+  </nav>
+  <section class="landing-hero">
+    <span class="badge">AI DIGITAL PRODUCT OPERATING SYSTEM</span>
+    <h1>From <span class="gradient">idea</span> to product, profit and mastery.</h1>
+    <p>Fireflies helps beginners discover opportunities, validate survival-level pain, build digital products, create premium assets, launch across channels, monetize and scale from one connected workspace.</p>
+    <button class="btn primary" style="padding:13px 20px" onclick="showAuth()">Build My First Product →</button>
+  </section>
+  <section class="landing-grid grid g4">
+    <div class="mini"><div>01 🔥</div><h3>Discover</h3><p>Niche, audience, idea and opportunity discovery.</p></div>
+    <div class="mini"><div>02 ⚡</div><h3>Validate</h3><p>Survival pain, demand, competition and Fire Score.</p></div>
+    <div class="mini"><div>03 🧩</div><h3>Build</h3><p>AI-powered product blueprints and content creation.</p></div>
+    <div class="mini"><div>04 🎨</div><h3>Create</h3><p>Design, image, video, audio and product packaging.</p></div>
+    <div class="mini"><div>05 💰</div><h3>Launch</h3><p>Advertising, storefronts, checkout and monetization.</p></div>
+    <div class="mini"><div>06 🚀</div><h3>Scale</h3><p>APIs, automation, analytics and multi-platform growth.</p></div>
+  </section>
+  <div class="footer">Fireflies · Discover → Validate → Build → Create → Launch → Scale</div>
+</div>
+
+<!-- AUTH -->
+<div id="auth" class="auth hidden">
+  <div class="auth-box">
+    <div class="logo"><span class="logo-mark">✦</span> FIREFLIES</div>
+    <h1>Welcome to your product studio.</h1>
+    <p>This MVP uses a demo sign-in flow. Production authentication should be connected to Supabase Auth or another secure identity provider.</p>
+    <div class="field"><label>EMAIL</label><input id="email" type="email" placeholder="you@example.com"></div>
+    <div class="field"><label>PASSWORD</label><input id="password" type="password" placeholder="••••••••"></div>
+    <button class="btn primary" style="width:100%;margin-top:16px" onclick="enterApp()">Continue to Fireflies →</button>
+    <button class="btn ghost" style="width:100%;margin-top:8px" onclick="showLanding()">Back</button>
+  </div>
+</div>
+
+<!-- APPLICATION -->
+<div id="app" class="app hidden">
+<header class="topbar">
+  <button class="mobile-menu" onclick="toggleSidebar()">☰</button>
+  <div class="logo"><span class="logo-mark">✦</span> FIREFLIES</div>
+  <div class="top-actions"><span class="pill">Creator · Starter</span><span class="avatar">FF</span></div>
+</header>
+
+<div class="layout">
+<aside id="sidebar" class="sidebar">
+  <div class="nav">
+    <div class="nav-label">Workspace</div>
+    <button class="active" onclick="nav('dashboard',this)"><span class="nav-icon">⌂</span> Dashboard</button>
+    <button onclick="nav('ideas',this)"><span class="nav-icon">🔥</span> Idea Lab</button>
+    <button onclick="nav('pain',this)"><span class="nav-icon">⚡</span> Survival Pain</button>
+    <button onclick="nav('builder',this)"><span class="nav-icon">🧩</span> AI Product Builder</button>
+
+    <div class="nav-label">Phase 4 · Create</div>
+    <button onclick="nav('design',this)"><span class="nav-icon">🎨</span> Design Studio</button>
+    <button onclick="nav('media',this)"><span class="nav-icon">🎬</span> Media Studio</button>
+    <button onclick="nav('files',this)"><span class="nav-icon">📂</span> File & Asset Vault</button>
+    <button onclick="nav('research',this)"><span class="nav-icon">🔎</span> Research Assistant</button>
+    <button onclick="nav('originality',this)"><span class="nav-icon">🛡️</span> Originality Assistant</button>
+
+    <div class="nav-label">Phase 5 · Launch</div>
+    <button onclick="nav('marketing',this)"><span class="nav-icon">📣</span> Advertising</button>
+    <button onclick="nav('monetize',this)"><span class="nav-icon">💰</span> Monetization Hub</button>
+
+    <div class="nav-label">Phase 6 · Scale</div>
+    <button onclick="nav('analytics',this)"><span class="nav-icon">📊</span> Growth Analytics</button>
+    <button onclick="nav('automation',this)"><span class="nav-icon">⚙️</span> Automation</button>
+    <button onclick="nav('integrations',this)"><span class="nav-icon">🔌</span> API & MCP Gateway</button>
+
+    <div class="nav-label">Account</div>
+    <button onclick="nav('billing',this)"><span class="nav-icon">💳</span> Subscription</button>
+  </div>
+  <div class="upgrade"><strong>Unlock Fireflies Pro</strong><p>Advanced media, automation, API/MCP access and higher generation limits.</p><button class="btn primary small" onclick="nav('billing')">View plans</button></div>
+</aside>
+
+<main class="main">
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="view active">
+  <div class="hero">
+    <div><div class="eyebrow">Creator Command Centre</div><h1>Build something valuable.</h1><p>One workspace for the complete Fireflies journey: <b>Discover → Validate → Build → Create → Launch → Scale.</b></p></div>
+    <button class="btn primary" onclick="nav('ideas')">+ New Product</button>
+  </div>
+
+  <div class="grid g4">
+    <div class="card stat"><div class="value">03</div><div class="label">Active products</div><div class="delta">+1 this month</div></div>
+    <div class="card stat"><div class="value">87</div><div class="label">Average Fire Score</div><div class="delta">↑ 12% validation</div></div>
+    <div class="card stat"><div class="value">₦184k</div><div class="label">Tracked revenue</div><div class="delta">↑ 18% this month</div></div>
+    <div class="card stat"><div class="value">06</div><div class="label">Connected platforms</div><div class="delta">2 ready to connect</div></div>
+  </div>
+
+  <div class="section-head"><h2>Six-phase product journey</h2><span>Current workspace</span></div>
+  <div class="grid g3">
+    <div class="card module" onclick="nav('ideas')"><div class="module-icon">🔥</div><h3>Phase 1 · Discover</h3><p>Find a niche, audience, problem and product opportunity.</p><div class="open">Enter Discovery →</div></div>
+    <div class="card module" onclick="nav('pain')"><div class="module-icon">⚡</div><h3>Phase 2 · Validate</h3><p>Measure urgency, frequency, willingness to pay and differentiation.</p><div class="open">Run Validation →</div></div>
+    <div class="card module" onclick="nav('builder')"><div class="module-icon">🧩</div><h3>Phase 3 · Build</h3><p>Generate the structure, modules, chapters, exercises and offer.</p><div class="open">Build Product →</div></div>
+    <div class="card module" onclick="nav('design')"><div class="module-icon">🎨</div><h3>Phase 4 · Create</h3><p>Design covers and pages; generate media and package deliverables.</p><div class="open">Open Studio →</div></div>
+    <div class="card module" onclick="nav('marketing')"><div class="module-icon">📣</div><h3>Phase 5 · Launch</h3><p>Prepare sales pages, advertising, checkout and distribution.</p><div class="open">Launch Product →</div></div>
+    <div class="card module" onclick="nav('integrations')"><div class="module-icon">🚀</div><h3>Phase 6 · Scale</h3><p>Automate workflows, connect APIs/MCP, analyze growth and repurpose.</p><div class="open">Scale System →</div></div>
+  </div>
+
+  <div class="section-head"><h2>Continue building</h2><span>Last 7 days</span></div>
+  <div class="card">
+    <table class="table"><thead><tr><th>Product</th><th>Phase</th><th>Progress</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+      <tr><td><b>Remote Job Launch Kit</b><br><small>Career · Toolkit</small></td><td>4 · Create</td><td style="width:28%"><div class="progress"><i style="width:72%"></i></div></td><td><span class="status ok">On track</span></td><td><button class="btn small" onclick="nav('design')">Open</button></td></tr>
+      <tr><td><b>30-Day Digital Reset</b><br><small>Lifestyle · eBook</small></td><td>2 · Validate</td><td><div class="progress"><i style="width:42%"></i></div></td><td><span class="status wait">Review</span></td><td><button class="btn small" onclick="nav('pain')">Review</button></td></tr>
+      <tr><td><b>Smart Money Workbook</b><br><small>Finance · Workbook</small></td><td>5 · Launch</td><td><div class="progress"><i style="width:91%"></i></div></td><td><span class="status ok">Ready</span></td><td><button class="btn small" onclick="nav('monetize')">Launch</button></td></tr>
+    </tbody></table>
+  </div>
+</section>
+
+<!-- PHASE 1 -->
+<section id="ideas" class="view">
+  <div class="hero"><div><div class="eyebrow">Phase 1 · Discover</div><h1>Idea Lab</h1><p>Start with the person, problem and transformation—not the file format.</p></div></div>
+  <div class="grid g2">
+    <div class="card">
+      <h2 style="margin-top:0">Choose a niche</h2>
+      <p style="color:var(--muted);font-size:12px">Select one or combine several.</p>
+      <div id="niches" class="chips"></div>
+      <div class="field"><label>YOUR RAW IDEA</label><textarea id="ideaInput" placeholder="Example: I want to help Nigerian graduates get legitimate remote jobs..."></textarea></div>
+      <button class="btn primary" onclick="generateIdea()">Generate Opportunities →</button>
+    </div>
+    <div class="card">
+      <h2 style="margin-top:0">Opportunity Canvas</h2>
+      <div id="ideaResult"><p style="color:var(--muted);font-size:12px">Your product opportunities will appear here.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PHASE 2 -->
+<section id="pain" class="view">
+  <div class="hero"><div><div class="eyebrow">Phase 2 · Validate</div><h1>Survival Pain Analyzer</h1><p>Find urgent problems worth solving before spending time and money building.</p></div></div>
+  <div class="grid g2">
+    <div class="card">
+      <h2 style="margin-top:0">Pain statement</h2>
+      <div class="field"><label>WHO HAS THE PROBLEM?</label><input id="audience" value="Nigerian graduates seeking remote work"></div>
+      <div class="field"><label>WHAT IS THEIR PAIN?</label><textarea id="painText">They struggle to identify legitimate opportunities, build a strong profile and prepare for remote interviews.</textarea></div>
+      <button class="btn primary" style="margin-top:13px" onclick="analyzePain()">Run Fire Score</button>
+    </div>
+    <div class="card">
+      <div class="score"><div id="scoreCircle" class="score-circle"><b id="score">87</b></div><div><h2 style="margin:0">Strong opportunity</h2><p style="color:var(--muted);font-size:12px;line-height:1.55">Prototype score based on urgency, frequency, willingness to pay and differentiation. Production scoring should use live research.</p></div></div>
+      <div class="metrics">
+        <div class="metric-row"><span>Urgency</span><b id="m1">92</b></div><div class="progress"><i id="p1" style="width:92%"></i></div>
+        <div class="metric-row"><span>Frequency</span><b id="m2">81</b></div><div class="progress"><i id="p2" style="width:81%"></i></div>
+        <div class="metric-row"><span>Willingness to pay</span><b id="m3">84</b></div><div class="progress"><i id="p3" style="width:84%"></i></div>
+        <div class="metric-row"><span>Differentiation</span><b id="m4">89</b></div><div class="progress"><i id="p4" style="width:89%"></i></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHASE 3 -->
+<section id="builder" class="view">
+  <div class="hero"><div><div class="eyebrow">Phase 3 · Build</div><h1>AI Product Builder</h1><p>Turn validated pain into a structured, useful digital product.</p></div><button class="btn primary" onclick="buildOutline()">Generate Blueprint</button></div>
+  <div class="grid g2">
+    <div class="card">
+      <h2 style="margin-top:0">Product Brief</h2>
+      <div class="form-grid">
+        <div class="field"><label>PRODUCT NAME</label><input id="productName" value="Remote Job Launch Kit"></div>
+        <div class="field"><label>FORMAT</label><select id="productFormat"><option>eBook</option><option>Workbook</option><option>Course</option><option>Toolkit</option><option>Template Bundle</option><option>Audio Guide</option></select></div>
+      </div>
+      <div class="field"><label>TRANSFORMATION</label><textarea id="transformation">Help a graduate move from uncertainty to a repeatable remote-job application system.</textarea></div>
+      <button class="btn primary" onclick="buildOutline()">Build with AI ✦</button>
+    </div>
+    <div class="card"><h2 style="margin-top:0">Recommended Structure</h2><div id="outline"></div></div>
+  </div>
+</section>
+
+<!-- PHASE 4 DESIGN -->
+<section id="design" class="view">
+  <div class="hero"><div><div class="eyebrow">Phase 4 · Create & Package</div><h1>Design Studio</h1><p>Create premium covers, colorful page settings, social assets and export-ready product files.</p></div><button class="btn primary" onclick="toast('Design brief saved')">Save Design</button></div>
+  <div class="card"><div class="tool-grid">
+    <div class="tool">📕<b>Cover</b>Book cover</div><div class="tool">📄<b>Pages</b>Layouts</div><div class="tool">🖼️<b>Images</b>AI visuals</div><div class="tool">📐<b>Brand</b>Colors & type</div><div class="tool">📱<b>Social</b>Promo kit</div>
+  </div></div>
+  <div class="grid g2" style="margin-top:15px">
+    <div class="card"><h2 style="margin-top:0">Cover Generator</h2><div class="field"><label>DESCRIBE THE COVER</label><textarea>A premium modern cover for a remote-work guide for African graduates. Confident, optimistic and professional.</textarea></div><div class="chips" style="margin:12px 0"><span class="chip selected">Modern</span><span class="chip">Bold</span><span class="chip">Minimal</span><span class="chip">Playful</span></div><button class="btn primary" onclick="openGenerator('Image','Generate 3 premium cover concepts for my digital product.')">Generate 3 Concepts</button></div>
+    <div class="card"><h2 style="margin-top:0">Page Settings</h2><div class="form-grid"><div class="field"><label>SIZE</label><select><option>A4</option><option>6 × 9 in</option><option>8.5 × 11 in</option></select></div><div class="field"><label>STYLE</label><select><option>Colorful Editorial</option><option>Premium Minimal</option><option>Kids Bright</option></select></div></div><div style="margin-top:16px;padding:18px;border:1px solid var(--line);border-radius:12px;background:#0b1019"><b>Chapter 1</b><div style="margin-top:7px;color:#8f9bad;font-size:12px">Welcome to your transformation journey…</div><div class="progress" style="margin-top:18px"><i style="width:64%"></i></div></div></div>
+  </div>
+</section>
+
+<!-- PHASE 4 MEDIA -->
+<section id="media" class="view">
+  <div class="hero"><div><div class="eyebrow">Phase 4 · Media</div><h1>Media Studio</h1><p>Generate visuals, video, narration, podcasts and repurposed campaign assets from one brief.</p></div></div>
+  <div class="grid g4">
+    <div class="card module" onclick="openGenerator('Image')"><div class="module-icon">🖼️</div><h3>Image Generator</h3><p>Product mockups, characters, scenes and marketing visuals.</p><div class="open">Create image →</div></div>
+    <div class="card module" onclick="openGenerator('Video')"><div class="module-icon">🎬</div><h3>Video Generator</h3><p>Short-form ads, explainers, product trailers and social clips.</p><div class="open">Create video →</div></div>
+    <div class="card module" onclick="openGenerator('Audio')"><div class="module-icon">🎙️</div><h3>Audio & Podcast</h3><p>Turn product knowledge into narrated audio and podcast episodes.</p><div class="open">Create audio →</div></div>
+    <div class="card module" onclick="openGenerator('Repurpose')"><div class="module-icon">♻️</div><h3>Repurpose Engine</h3><p>Transform one asset into posts, reels, emails and scripts.</p><div class="open">Repurpose →</div></div>
+  </div>
+  <div class="card" style="margin-top:15px"><h2 style="margin-top:0">Media Brief</h2><div class="field"><label>WHAT SHOULD FIREFLIES CREATE?</label><textarea id="mediaBrief" placeholder="Create a 30-second TikTok/Instagram Reel promoting my digital product..."></textarea></div><button class="btn primary" onclick="openGenerator('Media')">Generate Media ✦</button></div>
+</section>
+
+<!-- PHASE 4 FILES -->
+<section id="files" class="view">
+  <div class="hero"><div><div class="eyebrow">Phase 4 · Assets</div><h1>File & Asset Vault</h1><p>One project workspace for source documents, generated assets, exports and customer-ready packages.</p></div><button class="btn primary" onclick="fakeFilePicker()">+ Upload Files</button></div>
+  <div class="grid g2">
+    <div class="card"><h2 style="margin-top:0">Upload Zone</h2><div style="border:1px dashed #3b475c;border-radius:14px;padding:38px;text-align:center"><div style="font-size:32px">📂</div><p style="color:var(--muted);font-size:12px">PDF · DOCX · PPTX · XLSX · TXT · MP3 · MP4 · PNG · JPG · ZIP</p><button class="btn" onclick="fakeFilePicker()">Choose Files</button></div></div>
+    <div class="card"><h2 style="margin-top:0">Project Assets</h2><div id="assetList" class="list"><div class="list-item">📕 Remote-Job-Launch-Kit.pdf <span style="float:right;color:#7ff0ae">Ready</span></div><div class="list-item">🎙️ narration-final.mp3 <span style="float:right;color:#7ff0ae">Ready</span></div><div class="list-item">🎬 promo-30s.mp4 <span style="float:right;color:#ffd18a">Rendering</span></div></div></div>
+  </div>
+</section>
+
+<!-- PHASE 4 RESEARCH -->
+<section id="research" class="view">
+  <div class="hero"><div><div class="eyebrow">Phase 4 · Research</div><h1>Research Assistant</h1><p>Organize market intelligence with source-aware research. Production claims should always retain citations.</p></div></div>
+  <div class="grid g2">
+    <div class="card"><div class="field"><label>RESEARCH QUESTION</label><textarea id="researchQ">Is there a market opportunity for digital planners for Nigerian entrepreneurs?</textarea></div><button class="btn primary" onclick="runResearch()">Research Opportunity</button></div>
+    <div class="card"><h2 style="margin-top:0">Research Workspace</h2><div id="researchResult"><p style="color:var(--muted);font-size:12px">Run research to organize demand signals, competitors, pricing, customer pain points and product gaps.</p></div></div>
+  </div>
+</section>
+
+<!-- PHASE 4 ORIGINALITY -->
+<section id="originality" class="view">
+  <div class="hero"><div><div class="eyebrow">Phase 4 · Verify</div><h1>Originality Assistant</h1><p>Check content for similarity signals, citation gaps and areas requiring human review.</p></div></div>
+  <div class="grid g2">
+    <div class="card"><h2 style="margin-top:0">Upload Content</h2><div style="border:1px dashed #3a465a;border-radius:14px;padding:40px;text-align:center"><div style="font-size:34px">🛡️</div><p style="color:var(--muted);font-size:12px">PDF · DOCX · PPTX · TXT · HTML</p><button class="btn" onclick="fakeFilePicker()">Choose File</button></div></div>
+    <div class="card"><h2 style="margin-top:0">Originality Report</h2><div class="score"><div class="score-circle" style="background:conic-gradient(var(--success) 0 94%,#202838 94%)"><b>94</b></div><div><b>High originality signal</b><p style="color:var(--muted);font-size:12px;line-height:1.55">2 passages flagged for citation review. This is an assistance signal, not a definitive plagiarism verdict.</p></div></div></div>
+  </div>
+</section>
+
+<!-- PHASE 5 -->
+<section id="marketing" class="view">
+  <div class="hero"><div><div class="eyebrow">Phase 5 · Launch</div><h1>Advertising Command Centre</h1><p>Create channel-specific campaign assets from one product brief.</p></div><button class="btn primary" onclick="toast('Campaign draft created')">Create Campaign</button></div>
+  <div class="grid g4">
+    <div class="card module"><div class="module-icon">ⓕ</div><h3>Facebook</h3><p>Ad copy, creative angles and audience ideas.</p><div class="open">Build campaign →</div></div>
+    <div class="card module"><div class="module-icon">◎</div><h3>Instagram</h3><p>Reels, carousels, captions and CTA variations.</p><div class="open">Build campaign →</div></div>
+    <div class="card module"><div class="module-icon">♪</div><h3>TikTok</h3><p>Hooks, short scripts and UGC-style concepts.</p><div class="open">Build campaign →</div></div>
+    <div class="card module"><div class="module-icon">▶</div><h3>YouTube</h3><p>Titles, descriptions, Shorts and video campaign assets.</p><div class="open">Build campaign →</div></div>
+  </div>
+  <div class="card" style="margin-top:15px"><h2 style="margin-top:0">Campaign Generator</h2><div class="form-grid"><div class="field"><label>PRODUCT</label><input value="Remote Job Launch Kit"></div><div class="field"><label>GOAL</label><select><option>Sales</option><option>Leads</option><option>Awareness</option><option>Launch</option></select></div></div><div class="field"><label>CORE PROMISE</label><input value="Move from confused job searching to a repeatable remote-job application system."></div></div>
+</section>
+
+<section id="monetize" class="view">
+  <div class="hero"><div><div class="eyebrow">Phase 5 · Monetize</div><h1>Monetization Hub</h1><p>Package, price, distribute and monitor digital products across supported sales platforms.</p></div></div>
+  <div class="banner"><div><b>Remote Job Launch Kit</b><p>Ready to publish · ₦12,500 · 4 files · 1 bonus</p></div><button class="btn primary" onclick="toast('Launch checklist opened')">Launch Checklist →</button></div>
+  <div class="section-head"><h2>Storefront connections</h2><span>OAuth/API connections</span></div>
+  <div class="grid g3">
+    <div class="card"><h3>Selar</h3><p style="color:var(--muted);font-size:12px">Connect where supported by the platform's API and terms.</p><button class="btn small" onclick="toast('Selar connection flow started')">Connect</button></div>
+    <div class="card"><h3>Nestuge</h3><p style="color:var(--muted);font-size:12px">Products, checkout, customers and transactions.</p><button class="btn small" onclick="toast('Nestuge connection flow started')">Connect</button></div>
+    <div class="card"><h3>Gumroad</h3><p style="color:var(--muted);font-size:12px">Digital products and memberships through supported API flows.</p><button class="btn small" onclick="toast('Gumroad connection flow started')">Connect</button></div>
+  </div>
+</section>
+
+<!-- PHASE 6 ANALYTICS -->
+<section id="analytics" class="view">
+  <div class="hero"><div><div class="eyebrow">Phase 6 · Scale</div><h1>Growth Analytics</h1><p>Understand what sells, where customers come from and what Fireflies should recommend next.</p></div></div>
+  <div class="grid g4">
+    <div class="card stat"><div class="value">₦184k</div><div class="label">Revenue</div><div class="delta">↑ 18%</div></div>
+    <div class="card stat"><div class="value">312</div><div class="label">Orders</div><div class="delta">↑ 11%</div></div>
+    <div class="card stat"><div class="value">4.8%</div><div class="label">Conversion</div><div class="delta">↑ 0.7 pts</div></div>
+    <div class="card stat"><div class="value">41%</div><div class="label">Repeat buyers</div><div class="delta">↑ 5%</div></div>
+  </div>
+  <div class="grid g2" style="margin-top:15px">
+    <div class="card"><h2 style="margin-top:0">AI Growth Recommendation</h2><p style="line-height:1.7;color:#c4ccda">Your strongest opportunity is an interview-preparation bundle. Buyers who engage with CV content also show strong interest in interview resources.</p><button class="btn primary" onclick="nav('ideas')">Explore Next Product →</button></div>
+    <div class="card"><h2 style="margin-top:0">Top Channels</h2><table class="table"><tr><td>Instagram</td><td><b>42%</b></td></tr><tr><td>TikTok</td><td><b>28%</b></td></tr><tr><td>YouTube</td><td><b>17%</b></td></tr><tr><td>Email</td><td><b>13%</b></td></tr></table></div>
+  </div>
+</section>
+
+<!-- PHASE 6 AUTOMATION -->
+<section id="automation" class="view">
+  <div class="hero"><div><div class="eyebrow">Phase 6 · Automate</div><h1>Automation Engine</h1><p>Turn repeatable product-business tasks into controlled workflows.</p></div><button class="btn primary" onclick="toast('Automation draft created')">+ New Workflow</button></div>
+  <div class="grid g3">
+    <div class="card"><h3>Product Launch Flow</h3><p style="color:var(--muted);font-size:12px;line-height:1.55">Product ready → sales page → campaign assets → approval → publish → analytics.</p><span class="status ok">Active</span></div>
+    <div class="card"><h3>Content Repurposing</h3><p style="color:var(--muted);font-size:12px;line-height:1.55">One long-form asset → Shorts → Reels → TikTok → posts → email.</p><span class="status ok">Active</span></div>
+    <div class="card"><h3>Customer Delivery</h3><p style="color:var(--muted);font-size:12px;line-height:1.55">Payment → license → secure delivery → onboarding → follow-up.</p><span class="status wait">Draft</span></div>
+  </div>
+  <div class="card" style="margin-top:15px"><h2 style="margin-top:0">Example workflow</h2><div class="chips"><span class="chip selected">Product created</span><span class="chip">AI content</span><span class="chip">Media generation</span><span class="chip">Human approval</span><span class="chip">Publish</span><span class="chip">Track</span><span class="chip">Optimize</span></div></div>
+</section>
+
+<!-- PHASE 6 GATEWAY -->
+<section id="integrations" class="view">
+  <div class="hero"><div><div class="eyebrow">Phase 6 · Connect</div><h1>API & MCP Gateway</h1><p>Fireflies should sit between AI models and external services, enforcing permissions, subscriptions, credits and audit logs.</p></div></div>
+  <div class="grid g2">
+    <div class="card"><h2 style="margin-top:0">Fireflies API</h2><p style="color:var(--muted);font-size:12px;line-height:1.6">Use secure server-side keys to connect products, orders, customers, files, licenses and analytics.</p><div class="field"><label>API KEY</label><input value="ff_live_••••••••••••••" readonly></div><button class="btn small" onclick="toast('API key rotation requested')">Rotate Key</button></div>
+    <div class="card"><h2 style="margin-top:0">MCP Tool Policy</h2><p style="color:var(--muted);font-size:12px;line-height:1.6">MCP tools should be mediated by Fireflies rather than exposed directly to end users.</p><div class="chips"><span class="chip selected">Auth</span><span class="chip selected">Plan limits</span><span class="chip selected">Credits</span><span class="chip selected">Audit log</span></div></div>
+  </div>
+  <div class="section-head"><h2>Connected systems</h2><span>Prototype connectors</span></div>
+  <div class="grid g3">
+    <div class="card"><h3>🗄️ Supabase</h3><p style="color:var(--muted);font-size:12px">Database, authentication, storage and application data.</p><button class="btn small" onclick="toast('Supabase connection flow started')">Connect</button></div>
+    <div class="card"><h3>⚙️ n8n</h3><p style="color:var(--muted);font-size:12px">Workflow automation, webhooks and external API orchestration.</p><button class="btn small" onclick="toast('n8n connection flow started')">Connect</button></div>
+    <div class="card"><h3>🤖 AI Providers</h3><p style="color:var(--muted);font-size:12px">Connect approved text, image, video and audio model providers.</p><button class="btn small" onclick="toast('AI provider manager opened')">Manage</button></div>
+    <div class="card"><h3>💳 Stripe</h3><p style="color:var(--muted);font-size:12px">Subscription billing and payment events.</p><button class="btn small" onclick="toast('Stripe connection flow started')">Connect</button></div>
+    <div class="card"><h3>📣 Social Platforms</h3><p style="color:var(--muted);font-size:12px">Approved publishing and analytics integrations.</p><button class="btn small" onclick="toast('Social connection flow started')">Connect</button></div>
+    <div class="card"><h3>☁️ Storage & Media</h3><p style="color:var(--muted);font-size:12px">Object storage, transformations and rendering workers.</p><button class="btn small" onclick="toast('Storage configuration opened')">Configure</button></div>
+  </div>
+  <div class="card" style="margin-top:15px"><h2 style="margin-top:0">Example request path</h2><div class="code">AI Agent → Fireflies Tool Gateway → Permission Check → Subscription Check → Usage/Credit Check → MCP/API Connector → External Service → Audit Log → User</div></div>
+</section>
+
+<!-- BILLING -->
+<section id="billing" class="view">
+  <div class="hero"><div><div class="eyebrow">Account · Subscription</div><h1>Choose your Fireflies plan.</h1><p>Start with the tools you need and upgrade as your product business grows.</p></div></div>
+  <div class="grid g4">
+    <div class="card"><div class="eyebrow">STARTER</div><h2>$40<span style="font-size:12px;color:var(--muted)">/month</span></h2><p style="color:var(--muted);font-size:12px">Discovery and core product creation.</p><p style="font-size:12px;line-height:1.8">✓ Idea Lab<br>✓ Survival Pain<br>✓ Research<br>✓ Basic Product Builder<br>✓ Basic Design</p><button class="btn primary" style="width:100%" onclick="toast('Starter selected')">Choose Starter</button></div>
+    <div class="card" style="border-color:#7b4924"><div class="eyebrow">CREATOR</div><h2>$79<span style="font-size:12px;color:var(--muted)">/month</span></h2><p style="color:var(--muted);font-size:12px">Full creation and launch toolkit.</p><p style="font-size:12px;line-height:1.8">✓ Everything in Starter<br>✓ Advanced Design<br>✓ Image/Video/Audio credits<br>✓ Advertising<br>✓ Social workflows</p><button class="btn primary" style="width:100%" onclick="toast('Creator selected')">Choose Creator</button></div>
+    <div class="card"><div class="eyebrow">PRO</div><h2>$149<span style="font-size:12px;color:var(--muted)">/month</span></h2><p style="color:var(--muted);font-size:12px">Automation, APIs and higher limits.</p><p style="font-size:12px;line-height:1.8">✓ Everything in Creator<br>✓ API Gateway<br>✓ MCP tooling<br>✓ Automation<br>✓ Analytics</p><button class="btn primary" style="width:100%" onclick="toast('Pro selected')">Choose Pro</button></div>
+    <div class="card" style="border-color:#5b4630;background:linear-gradient(145deg,#17130f,#111824)"><div class="eyebrow">ALL-ACCESS</div><h2>$199<span style="font-size:12px;color:var(--muted)">/month</span></h2><p style="color:var(--muted);font-size:12px">The complete Fireflies ecosystem.</p><p style="font-size:12px;line-height:1.8">✓ All modules<br>✓ All automation<br>✓ API & MCP<br>✓ Premium generation<br>✓ Priority features</p><button class="btn primary" style="width:100%" onclick="toast('All-Access selected')">Choose All-Access</button></div>
+  </div>
+</section>
+
+</main>
+</div>
+</div>
+
+<!-- GENERATOR MODAL -->
+<div id="modal" class="modal">
+  <div class="modal-box">
+    <div class="modal-head"><h2 id="modalTitle">Generator</h2><button class="close" onclick="closeModal()">×</button></div>
+    <div class="field"><label>PROMPT / BRIEF</label><textarea id="modalPrompt" placeholder="Describe what Fireflies should create..."></textarea></div>
+    <div class="chips" style="margin-top:12px"><span class="chip selected">Brand-safe</span><span class="chip">High quality</span><span class="chip">Platform-ready</span></div>
+    <button class="btn primary" style="margin-top:14px" onclick="queueGeneration()">Generate ✦</button>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+const niches=["Business","Career","Education","Finance","Lifestyle","Health & Fitness","Faith","Parenting","Kids","Engineering","Technology","Beauty","Agriculture","Real Estate","Personal Development","Creative Arts","Travel","Food"];
+const nicheWrap=document.getElementById("niches");
+niches.forEach(n=>{const s=document.createElement("span");s.className="chip";s.textContent=n;s.onclick=()=>s.classList.toggle("selected");nicheWrap.appendChild(s)});
+
+const defaultOutline=[
+ "01 · Transformation promise & product positioning",
+ "02 · The core problem explained simply",
+ "03 · Step-by-step framework",
+ "04 · Practical examples and case scenarios",
+ "05 · Templates, checklists and exercises",
+ "06 · 30-day implementation plan",
+ "07 · Bonus resources and next-level offer"
+];
+document.getElementById("outline").innerHTML=defaultOutline.map(x=>`<div class="list-item">${x}</div>`).join("");
+
+function showAuth(){document.getElementById("landing").classList.add("hidden");document.getElementById("auth").classList.remove("hidden")}
+function showLanding(){document.getElementById("auth").classList.add("hidden");document.getElementById("landing").classList.remove("hidden")}
+function enterApp(){document.getElementById("auth").classList.add("hidden");document.getElementById("landing").classList.add("hidden");document.getElementById("app").classList.remove("hidden");toast("Welcome to Fireflies")}
+function toggleSidebar(){const s=document.getElementById("sidebar");s.style.display=s.style.display==="block"?"none":"block"}
+function nav(id,el){
+  document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+  const target=document.getElementById(id); if(target) target.classList.add("active");
+  document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
+  if(el) el.classList.add("active");
+  document.getElementById("sidebar").style.display="";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2200)}
+function generateIdea(){
+  const raw=document.getElementById("ideaInput").value.trim()||"Help a specific audience solve an urgent problem";
+  const selected=[...document.querySelectorAll("#niches .chip.selected")].map(x=>x.textContent);
+  const niche=selected.length?selected.join(", "):"General";
+  document.getElementById("ideaResult").innerHTML=
+  `<div class="eyebrow">AI OPPORTUNITIES</div>
+   <h3 style="margin:8px 0">1. Premium Starter Kit</h3>
+   <p style="color:var(--muted);font-size:12px;line-height:1.6">Niche: ${niche}. Turn “${raw.slice(0,90)}${raw.length>90?"…":""}” into a guided toolkit with templates, checklists and a clear outcome.</p>
+   <h3 style="margin:16px 0 8px">2. 30-Day Transformation Product</h3>
+   <p style="color:var(--muted);font-size:12px;line-height:1.6">Package the solution as a daily action plan with measurable milestones and accountability.</p>
+   <h3 style="margin:16px 0 8px">3. Premium Bundle</h3>
+   <p style="color:var(--muted);font-size:12px;line-height:1.6">Combine an eBook, templates, mini-course and bonus resources to increase perceived value.</p>
+   <button class="btn primary small" onclick="nav('pain')">Validate the best idea →</button>`;
+  toast("Opportunity concepts generated");
+}
+function analyzePain(){
+  const n=84+Math.floor(Math.random()*11);
+  document.getElementById("score").textContent=n;
+  const vals=[Math.min(99,n+5),Math.max(70,n-6),Math.max(72,n-3),Math.min(98,n+1)];
+  ["m1","m2","m3","m4"].forEach((id,i)=>document.getElementById(id).textContent=vals[i]);
+  ["p1","p2","p3","p4"].forEach((id,i)=>document.getElementById(id).style.width=vals[i]+"%");
+  document.getElementById("scoreCircle").style.background=`conic-gradient(var(--brand) 0 ${n}%,#202838 ${n}%)`;
+  toast("Fire Score updated");
+}
+function buildOutline(){
+  const name=document.getElementById("productName").value||"Your Product";
+  const format=document.getElementById("productFormat").value;
+  document.getElementById("outline").innerHTML=[
+    `01 · ${name} — ${format} positioning`,
+    "02 · Customer problem & desired transformation",
+    "03 · Core framework / method",
+    "04 · Step-by-step implementation",
+    "05 · Templates, examples & exercises",
+    "06 · 30-day action plan",
+    "07 · Bonuses, CTA & next-step offer"
+  ].map(x=>`<div class="list-item">${x}</div>`).join("");
+  toast("Product blueprint generated");
+}
+function openGenerator(type,defaultPrompt){
+  document.getElementById("modalTitle").textContent=(type||"AI")+" Generator";
+  const brief=document.getElementById("mediaBrief")?.value;
+  document.getElementById("modalPrompt").value=defaultPrompt||brief||`Create a premium ${String(type||"digital product").toLowerCase()} asset for my product.`;
+  document.getElementById("modal").classList.add("show");
+}
+function closeModal(){document.getElementById("modal").classList.remove("show")}
+function queueGeneration(){closeModal();toast("Generation queued — production version connects the selected AI provider")}
+function runResearch(){
+  document.getElementById("researchResult").innerHTML=
+  `<div class="eyebrow">RESEARCH SNAPSHOT</div>
+   <h3>Opportunity appears promising</h3>
+   <p style="color:#c4ccda;font-size:12px;line-height:1.65">A production Fireflies research agent should collect current evidence and attach citations to factual claims. The MVP organizes the workflow into demand signals, competitors, pricing, pain points and product gaps.</p>
+   <div class="chips"><span class="chip selected">Demand signals</span><span class="chip">Competitors</span><span class="chip">Pricing</span><span class="chip">Content gaps</span></div>
+   <p style="color:var(--muted);font-size:10px;margin-top:14px">Question: ${document.getElementById("researchQ").value}</p>`;
+  toast("Research workspace populated");
+}
+function fakeFilePicker(){toast("Production version will open secure file upload")}
+</script>
+</body>
+</html>'''
+
